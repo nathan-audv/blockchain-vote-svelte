@@ -74,10 +74,25 @@ contract Voting is Ownable {
         _;
     }
 
+    /// @notice Is address a voter
+    /// @param _address : Address of voter
+    /// @return bool : is voter
+    function isVoter(address _address) external view returns (bool){
+        if(voters[_address].isRegistered) {
+            return true;
+        }
+        return false;
+    }
+
+    /// @notice Get workflow status
+    /// @return WorkflowStatus : current status
     function getWorkflowStatus() external view returns (WorkflowStatus) {
         return currentWorkflowStatus;
     }
 
+    /// @notice Get a proposal by id
+    /// @param _proposalId : Id of the proposal
+    /// @return Proposal : Proposal object
     function getOneProposal(uint _proposalId) external view returns (Proposal memory){
         return proposals[_proposalId];
     }
