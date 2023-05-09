@@ -6,11 +6,10 @@ import InputWhiteList from "@/components/admin/InputWhiteList.vue";
 import ShowProposal from "@/components/admin/ShowProposal.vue";
 import StartVote from "@/components/admin/StartVote.vue";
 import FinishVote from "@/components/admin/FinishVote.vue";
-import TallyVote from "@/components/admin/TallyVote.vue";
 import AddProposal from "@/components/user/AddProposal.vue";
 import Navbar from "@/components/Navbar.vue";
-import ViewVotes from "@/components/user/ViewVotes.svelte";
-import UserVote from "@/components/user/UserVote.svelte";
+import ViewVotes from "@/components/user/ViewVotes.vue";
+import UserVote from "@/components/user/UserVote.vue";
 
 
 const web3var = ref(null)
