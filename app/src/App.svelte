@@ -12,8 +12,11 @@
     //other
     import Navbar from "./components/Navbar.svelte";
 
+    let contractvar
+    let accountsvar
     let workflow
     let isOwnervar
+    let isVoter
 
     contractvar.methods.getWorkflowStatus.call((err1, res1) => {
         workflow = res1
@@ -23,24 +26,25 @@
 </script>
 
 <Navbar/>
-{#if !isOwnervar}
+{#if isVoter}
     {#if workflow === ''}
-        <AddProposal/>
+        <AddProposal contractvar={contractvar} accountsvar={accountsvar}/>
     {:else if workflow === ''}
-        <UserVote/>
+        <UserVote contractvar={contractvar} accountsvar={accountsvar}/>
     {:else if workflow === ''}
-        <ViewVotes/>
+        <ViewVotes contractvar={contractvar}/>
     {/if}
-{:else}
+{/if}
+{#if isOwnervar}
     {#if workflow === ''}
-        <RegisterVoters/>
+        <RegisterVoters contractvar={contractvar} accountsvar={accountsvar}/>
     {:else if workflow === ''}
-        <ShowProposal/>
+        <ShowProposal contractvar={contractvar} accountsvar={accountsvar}/>
     {:else if workflow === ''}
-        <StartVote/>
+        <StartVote contractvar={contractvar} accountsvar={accountsvar}/>
     {:else if workflow === ''}
-        <FinishVote/>
+        <FinishVote contractvar={contractvar} accountsvar={accountsvar}/>
     {:else if workflow === ''}
-        <TallyVote/>
+        <TallyVote contractvar={contractvar} accountsvar={accountsvar}/>
     {/if}
 {/if}

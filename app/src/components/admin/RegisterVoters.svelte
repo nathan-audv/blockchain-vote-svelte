@@ -6,8 +6,8 @@
     let item
 
     const startProposal = () => {
-        contractvar.value.methods.registerVoters(addresses).send({from: accountsvar.value[0]})
-        contractvar.value.methods.startProposalsRegistration().send({from: accountsvar.value[0]})
+        contractvar.methods.registerVoters(addresses).send({from: accountsvar[0]})
+        contractvar.methods.startProposalsRegistration().send({from: accountsvar[0]})
     }
 
     const add = () => {
@@ -17,8 +17,8 @@
         }
     }
 
-    function deleteRow(i) {
-        addresses.value.splice(i, 1)
+    function deleteRow() {
+        addresses.value.splice(addresses.indexOf(item), 1)
     }
 </script>
 
@@ -29,7 +29,7 @@
             <input class="form-control" type="text" id="addedAddress"/>
         </div>
         <div class="col-4 d-grid my-auto">
-            <button class="btn btn-primary btn-block buttonSave" id="buttonSave" on:click="add">Add to list</button>
+            <button class="btn btn-primary btn-block buttonSave" id="buttonSave" on:click={add}>Add to list</button>
         </div>
     </div>
     <div class="row my-4 AddList">
@@ -38,7 +38,7 @@
                 <tr>
                     <th style="width: 80%;" scope="row" id="{item}">{item}</th>
                     <td style="width: 20%;">
-                        <button class="btn btn-outline-danger " on:click="deleteRow(addresses.indexOf({item}))">
+                        <button class="btn btn-outline-danger " on:click={deleteRow}>
                             Delete
                         </button>
                     </td>
@@ -47,7 +47,7 @@
         </table>
     </div>
     <div class="row justify-content-center">
-        <button class="btn btn-primary" on:click="startProposal()">Start proposal session
+        <button class="btn btn-primary" on:click={startProposal}>Start proposal session
         </button>
     </div>
 </div>

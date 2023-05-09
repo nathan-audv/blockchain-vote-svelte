@@ -7,14 +7,14 @@
 
     contractvar.methods.getProposalsLength().call((err, res) => {
         for (let i = 0; i < res; i++) {
-            contractvar.methods.proposals(i).call((err1, res1) => {
+            contractvar.methods.getOneProposal(i).call((err1, res1) => {
                 proposals.value.push(res1)
             })
         }
     })
 
     const endProposal = () => {
-        contractvar.value.methods.endProposalsRegistration().send({from: accountsvar.value[0]})
+        contractvar.methods.endProposalsRegistration().send({from: accountsvar[0]})
     }
 </script>
 
@@ -22,13 +22,13 @@
     <div class="row my-4">
         <table class="table" id="myTable">
             {#each item as proposals}
-                <tr for="item in proposals">
+                <tr>
                     <th style="width: 80%;" scope="row">{ item.description }</th>
                 </tr>
             {/each}
         </table>
     </div>
     <div class="row justify-content-center">
-        <button class="btn btn-primary" on:click="endProposal()">Finish proposals</button>
+        <button class="btn btn-primary" on:click={endProposal}>Finish proposals</button>
     </div>
 </div>
