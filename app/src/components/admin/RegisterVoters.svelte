@@ -1,6 +1,6 @@
 <script>
-    let contractvar
-    let accountsvar
+    export let contractvar
+    export let accountsvar
 
     const addresses = []
     let item

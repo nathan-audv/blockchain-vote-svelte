@@ -14,6 +14,7 @@
 
     let contractvar
     let accountsvar
+    let useraddress
     let workflow
     let isOwnervar
     let isVoter
@@ -25,7 +26,7 @@
     console.log(workflow)
 </script>
 
-<Navbar/>
+<Navbar useraddress={useraddress}/>
 {#if isVoter}
     {#if workflow === ''}
         <AddProposal contractvar={contractvar} accountsvar={accountsvar}/>

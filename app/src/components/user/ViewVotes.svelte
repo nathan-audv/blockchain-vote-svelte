@@ -1,5 +1,5 @@
 <script>
-    let contractvar
+    export let contractvar
 
     const proposals = []
     let item
