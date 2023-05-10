@@ -5,7 +5,9 @@
     const makeProposal = () => {
         const value = document.querySelector("#addedProposal").value
         if (value !== "") {
-            contractvar.methods.registerProposal(value).send({from: accountsvar[0]})
+            contractvar.methods.registerProposal(value).send({from: accountsvar[0]}).then(() => {
+                location.reload();
+            })
         }
     }
 </script>

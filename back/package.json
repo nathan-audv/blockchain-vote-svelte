@@ -3,5 +3,8 @@
     "@openzeppelin/contracts": "^4.8.3",
     "@openzeppelin/test-helpers": "^0.5.16",
     "truffle": "^5.8.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-json": "^6.0.0"
   }
 }
