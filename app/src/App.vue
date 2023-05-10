@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script>
 import Voting from '../../../back/build/contracts/Voting.json'
 import {onMounted, ref} from "vue";
 import getWeb3 from './assets/getWeb3.js'
 import InputWhiteList from "@/components/admin/InputWhiteList.vue";
 import ShowProposal from "@/components/admin/ShowProposal.vue";
 import StartVote from "@/components/admin/StartVote.vue";
-import FinishVote from "@/components/admin/FinishVote.vue";
+import FinishVote from "@/components/admin/FinishVote.svelte";
 import AddProposal from "@/components/user/AddProposal.vue";
 import Navbar from "@/components/Navbar.vue";
 import ViewVotes from "@/components/user/ViewVotes.vue";

@@ -1,4 +1,7 @@
 <script>
+    import Voting from '../../back/build/contracts/Voting.json'
+    import {onMount} from "svelte";
+    import getWeb3 from "../scripts/getWeb3";
     // user components
     import AddProposal from "./components/user/AddProposal.svelte";
     import UserVote from "./components/user/UserVote.svelte";
@@ -12,18 +15,75 @@
     //other
     import Navbar from "./components/Navbar.svelte";
 
-    let contractvar
-    let accountsvar
-    let useraddress
+    let web3var = null
+    let accountsvar = null
+    let contractvar = null
+    let userAddressvar = null
     let workflow
     let isOwnervar
     let isVoter
 
-    contractvar.methods.getWorkflowStatus.call((err1, res1) => {
-        workflow = res1
-    })
 
-    console.log(workflow)
+    onMount(async () => {
+        try {
+            // Get network provider and web3 instance.
+            const web3 = await getWeb3()
+
+            // Use web3 to get the user's accounts.
+            /* on récupère le tableau des comptes sur le metamask du user */
+            const accounts = await web3.eth.getAccounts()
+
+            // Get the contract instance.
+            const networkId = await web3.eth.net.getId()
+            const deployedNetwork = Voting.networks[networkId]
+            console.log("deployedNetwork", deployedNetwork)
+            /* Création de l'objet de contrat avec l'abi, le deployedNetwork et son address  */
+            const instance = new web3.eth.Contract(
+                Voting.abi,
+                deployedNetwork && deployedNetwork.address
+            )
+
+            // Set web3, accounts, and contract to the state, and then proceed with an
+            // example of interacting with the contract's methods.
+            web3var = web3
+            accountsvar = accounts
+            contractvar = instance
+            userAddressvar = accountsvar[0]
+
+            // Check if the user is the owner
+            const owner = await instance.methods.owner().call()
+            if (userAddressvar === owner) {
+                isOwnervar = true
+            }
+        } catch (error) {
+            // Catch any errors for any of the above operations.
+            alert(
+                `Failed to load web3, accounts, or contract. Check console for details.`
+            )
+            console.error(error)
+        }
+    })
+    const startProposal = (reactiveData) => {
+        contractvar.methods.registerVoters(reactiveData).send({from: accountsvar[0]})
+        contractvar.methods.startProposalsRegistration().send({from: accountsvar[0]})
+    }
+
+    const endProposal = () => {
+        contractvar.methods.endProposalsRegistration().send({from: accountsvar[0]})
+    }
+
+    const makeProposal = (value) => {
+        contractvar.methods.registerProposal(value).send({from: accountsvar[0]})
+    }
+
+    const startVote = () => {
+        contractvar.methods.startVotingSession().send({from: accountsvar[0]})
+    }
+
+    const tallyVote = () => {
+        contractvar.methods.tallyVotes().send({from: accountsvar[0]})
+    }
+
 </script>
 
 <Navbar useraddress={useraddress}/>
