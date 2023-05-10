@@ -1,24 +1,28 @@
 <script>
+    import {writable} from "svelte/store";
+
     export let contractvar
     export let accountsvar
 
-    const addresses = []
+    const addresses = writable([])
     let item
 
     const startProposal = () => {
-        contractvar.methods.registerVoters(addresses).send({from: accountsvar[0]})
-        contractvar.methods.startProposalsRegistration().send({from: accountsvar[0]})
+        contractvar.methods.registerVoters($addresses).send({from: accountsvar[0]})
+        contractvar.methods.startProposalsRegistration().send({from: accountsvar[0]}).then(() => {
+            location.reload();
+        })
     }
 
     const add = () => {
         const value = document.querySelector("#addedAddress").value
-        if (value !== "" && !addresses.value.includes(value)) {
-            addresses.value.push(value)
+        if (value !== "" && !$addresses.includes(value)) {
+            addresses.update(items => [...items, value])
         }
     }
 
-    function deleteRow() {
-        addresses.value.splice(addresses.indexOf(item), 1)
+    function deleteRow(deleteItem) {
+        addresses.update(items => items.filter(i => i !== deleteItem))
     }
 </script>
 
@@ -34,11 +38,11 @@
     </div>
     <div class="row my-4 AddList">
         <table class="table" id="myTable">
-            {#each item as addresses}
+            {#each $addresses as item}
                 <tr>
                     <th style="width: 80%;" scope="row" id="{item}">{item}</th>
                     <td style="width: 20%;">
-                        <button class="btn btn-outline-danger " on:click={deleteRow}>
+                        <button class="btn btn-outline-danger " on:click={() => {deleteRow(item)}}>
                             Delete
                         </button>
                     </td>

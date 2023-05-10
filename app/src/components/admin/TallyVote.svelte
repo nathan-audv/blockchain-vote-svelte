@@ -3,7 +3,9 @@
     export let accountsvar
 
     const tallyVote = () => {
-        contractvar.methods.tallyVotes().send({from: accountsvar[0]})
+        contractvar.methods.tallyVotes().send({from: accountsvar[0]}).then(() => {
+            location.reload();
+        })
     }
 </script>
 

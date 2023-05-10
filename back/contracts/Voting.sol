@@ -78,7 +78,7 @@ contract Voting is Ownable {
     /// @param _address : Address of voter
     /// @return bool : is voter
     function isVoter(address _address) external view returns (bool){
-        if(voters[_address].isRegistered) {
+        if (voters[_address].isRegistered) {
             return true;
         }
         return false;
@@ -170,16 +170,12 @@ contract Voting is Ownable {
     /// @custom:accessibility Voters
     function registerProposal(string memory _description) external onlyVoters onlyDuringProposalsRegistration {
         // La fonction permet à un électeur enregistré de proposer une nouvelle proposition pendant la période d'enregistrement des propositions.
-        require(keccak256(abi.encodePacked(_description)) != keccak256(""), "Proposal can't be null");
-        for (uint i = 0; i < proposals.length; i++) {
-            require(keccak256(abi.encodePacked(proposals[i].description)) != keccak256(abi.encodePacked(_description)), "Proposal already registered.");
-            proposals.push(Proposal({
-                description: _description,
-                voteCount: 0
-            }));
-            // Ajouter une nouvelle proposition à la liste des propositions existantes et émettre un événement.
-            emit ProposalRegistered(proposals.length - 1);
-        }
+        proposals.push(Proposal({
+            description: _description,
+            voteCount: 0
+        }));
+        // Ajouter une nouvelle proposition à la liste des propositions existantes et émettre un événement.
+        emit ProposalRegistered(proposals.length - 1);
     }
 
     /// @notice For users to vote

@@ -3,7 +3,9 @@
     export let accountsvar
 
     const startVote = () => {
-        contractvar.methods.startVotingSession().send({from: accountsvar[0]})
+        contractvar.methods.startVotingSession().send({from: accountsvar[0]}).then(() => {
+            location.reload();
+        })
     }
 </script>
 

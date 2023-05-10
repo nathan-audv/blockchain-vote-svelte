@@ -63,61 +63,42 @@
             console.error(error)
         }
     })
-    const startProposal = (reactiveData) => {
-        contractvar.methods.registerVoters(reactiveData).send({from: accountsvar[0]})
-        contractvar.methods.startProposalsRegistration().send({from: accountsvar[0]})
-    }
-
-    const endProposal = () => {
-        contractvar.methods.endProposalsRegistration().send({from: accountsvar[0]})
-    }
-
-    const makeProposal = (value) => {
-        contractvar.methods.registerProposal(value).send({from: accountsvar[0]})
-    }
-
-    const startVote = () => {
-        contractvar.methods.startVotingSession().send({from: accountsvar[0]})
-    }
-
-    const tallyVote = () => {
-        contractvar.methods.tallyVotes().send({from: accountsvar[0]})
-    }
     setTimeout(delayed, 2000);
     function delayed(){
         contractvar.methods.getWorkflowStatus().call((err1, res1) => {
             workflow = res1
         })
-        console.log(workflow)
 
         contractvar.methods.isVoter(accountsvar[0]).call((err1, res1) => {
             isVoter = res1
         })
-        console.log(isVoter)
     }
 
 </script>
-
 <Navbar userAddressvar={userAddressvar}/>
-{#if isVoter}
-    {#if workflow === ''}
-        <AddProposal contractvar={contractvar} accountsvar={accountsvar}/>
-    {:else if workflow === ''}
-        <UserVote contractvar={contractvar} accountsvar={accountsvar}/>
-    {:else if workflow === ''}
-        <ViewVotes contractvar={contractvar}/>
+<div class="container">
+    {#if isVoter}
+        <h4>Action voter</h4>
+        {#if workflow === '1'}
+            <AddProposal contractvar={contractvar} accountsvar={accountsvar}/>
+        {:else if workflow === '3'}
+            <UserVote contractvar={contractvar} accountsvar={accountsvar}/>
+        {:else if workflow === '5'}
+            <ViewVotes contractvar={contractvar}/>
+        {/if}
     {/if}
-{/if}
-{#if isOwnervar}
-    {#if workflow === ''}
-        <RegisterVoters contractvar={contractvar} accountsvar={accountsvar}/>
-    {:else if workflow === ''}
-        <ShowProposal contractvar={contractvar} accountsvar={accountsvar}/>
-    {:else if workflow === ''}
-        <StartVote contractvar={contractvar} accountsvar={accountsvar}/>
-    {:else if workflow === ''}
-        <FinishVote contractvar={contractvar} accountsvar={accountsvar}/>
-    {:else if workflow === ''}
-        <TallyVote contractvar={contractvar} accountsvar={accountsvar}/>
+    {#if isOwnervar}
+        <h4>Action admin</h4>
+        {#if workflow === '0'}
+            <RegisterVoters contractvar={contractvar} accountsvar={accountsvar}/>
+        {:else if workflow === '1'}
+            <ShowProposal contractvar={contractvar} accountsvar={accountsvar}/>
+        {:else if workflow === '2'}
+            <StartVote contractvar={contractvar} accountsvar={accountsvar}/>
+        {:else if workflow === '3'}
+            <FinishVote contractvar={contractvar} accountsvar={accountsvar}/>
+        {:else if workflow === '4'}
+            <TallyVote contractvar={contractvar} accountsvar={accountsvar}/>
+        {/if}
     {/if}
-{/if}
+</div>
