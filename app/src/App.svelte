@@ -83,10 +83,22 @@
     const tallyVote = () => {
         contractvar.methods.tallyVotes().send({from: accountsvar[0]})
     }
+    setTimeout(delayed, 2000);
+    function delayed(){
+        contractvar.methods.getWorkflowStatus().call((err1, res1) => {
+            workflow = res1
+        })
+        console.log(workflow)
+
+        contractvar.methods.isVoter(accountsvar[0]).call((err1, res1) => {
+            isVoter = res1
+        })
+        console.log(isVoter)
+    }
 
 </script>
 
-<Navbar useraddress={useraddress}/>
+<Navbar userAddressvar={userAddressvar}/>
 {#if isVoter}
     {#if workflow === ''}
         <AddProposal contractvar={contractvar} accountsvar={accountsvar}/>
